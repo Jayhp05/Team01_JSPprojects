@@ -1,0 +1,23 @@
+@CHARSET "UTF-8";
+body {
+	margin: 0 auto;
+	padding: 0;	
+}
+div { 
+	width: 400px; 
+	margin: 0 auto;
+	font-size: 0.8em; 
+}
+table { 
+	border: 1px solid blue; 
+	border-collapse: collapse;
+}
+th {
+	padding: 0;	
+	border: 1px dotted blue;	
+	height: 50px;
+	line-height: 50px;
+	font-size: 1.5em;
+}
+.image { text-align: center; padding: 10px;}
+.info { padding: 10px;}

@@ -1,0 +1,11 @@
+* boardTemp 폴더 참고
+이 폴더에 있는 파일은 다음과 같이 작성된 파일로 단계 별 작업에서 사용한  임시 파일임
+
+boardList.jsp, boardDetail.jsp 에서
+부트스트랩으로 화면을 구현할 때 header와 footer는 자리만 잡아 놓은 jsp 파일
+
+main01.jsp 
+초기에 부트스트랩을 적용해 게시 글 리스트를 간단히 출력한 버전
+
+main02.jsp
+main01.jsp에서 header, footer를 적용해 하나의 페이지로 만든 버전 

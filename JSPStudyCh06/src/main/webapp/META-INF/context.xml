@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context>
+	<Resource name="jdbc/bbsDBPool" 
+			auth="Container"
+			type="javax.sql.DataSource"
+			driverClassName="oracle.jdbc.driver.OracleDriver"
+			url="jdbc:oracle:thin:@localhost:1521:xe"
+			username="hr"
+			password="hr"			
+			factory="org.apache.commons.dbcp2.BasicDataSourceFactory"
+			maxActive="10" 
+			maxIdle="5" />	
+</Context>
+<!-- 
+	톰캣에 기본 내장되어 있는 DBCP를 사용할 경우 DBCP Factory 클래스 지정
+	이클립스에 설치된 톰캣 서버의 context.xml 또는 server.xml에 Context를
+	설정하는 경우 factory 클래스는 아래와 같이 지정하면 된다.
+-->
+<!-- factory="org.apache.tomcat.dbcp.dbcp.BasicDataSourceFactory"  -->

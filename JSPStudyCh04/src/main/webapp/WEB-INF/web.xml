@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="https://jakarta.ee/xml/ns/jakartaee" xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_5_0.xsd" id="WebApp_ID" version="5.0">
+  <display-name>JSPStudyCh04</display-name>
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.htm</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>default.html</welcome-file>
+    <welcome-file>default.htm</welcome-file>
+    <welcome-file>default.jsp</welcome-file>
+  </welcome-file-list>
+  <servlet>
+    <servlet-name>now-servlet</servlet-name>
+    <servlet-class>com.jspstudy.ch04.servletbasic.NowServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>now-servlet</servlet-name>
+    <url-pattern>/now.do</url-pattern>
+    <url-pattern>/now1</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>getRequest</servlet-name>
+    <servlet-class>com.jspstudy.ch04.requestmethod.GetRequestServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>getRequest</servlet-name>
+    <url-pattern>/getRequest</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>postRequest</servlet-name>
+    <servlet-class>com.jspstudy.ch04.requestmethod.PostRequestServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>postRequest</servlet-name>
+    <url-pattern>/postRequest</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>servletLifeCycle</servlet-name>
+    <servlet-class>com.jspstudy.ch04.lifecycle.ServletLifeCycle</servlet-class>    
+    <init-param>
+      <param-name>READ_FILE</param-name>
+      <param-value>/WEB-INF/set/setting.txt</param-value>
+    </init-param>
+    <!-- 서블릿 파라미터가 여러 개 필요할 경우 init-param을 여러 개 사용할 수 있다.  -->
+    <init-param>
+    	<param-name>TEST_PARAM</param-name>
+    	<param-value>테스트 파라미터</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>servletLifeCycle</servlet-name>
+    <url-pattern>/servletLifeCycle</url-pattern>
+  </servlet-mapping>
+</web-app>
