@@ -9,6 +9,16 @@
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
+  
+  <servlet>
+  	<servlet-name>nowServlet</servlet-name>
+  	<servlet-class>com.jspstudy.ch04.servletbasic.NowServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>nowServlet</servlet-name>
+  	<url-pattern>/now.do</url-pattern>
+  </servlet-mapping>
+  
   <servlet>
     <servlet-name>now-servlet</servlet-name>
     <servlet-class>com.jspstudy.ch04.servletbasic.NowServlet</servlet-class>
