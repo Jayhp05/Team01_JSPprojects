@@ -10,7 +10,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 @WebServlet("/now1")
-public class DetailServlet extends HttpServlet {
+public class DetailServlet01 extends HttpServlet {
 
 //	get - doGet()
 //	post - doPost()
