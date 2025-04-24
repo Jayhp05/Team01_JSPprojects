@@ -15,10 +15,9 @@
 	<form name="f1" action="postRequest" method="post">
 		이름 : <input type="text" name="name" /><br/>
 		나이 : <input type="text" name="age" /><br/>
-		성별 : <input type="radio" name="gender" value="male"/>남성&nbsp;
- 				<input type="radio" name="gender" value="female"/>여성<br/>
-		주소 : <input type="text" name="address" />		
-		<input type="submit" value="주소입력" /><br/>
+		성별 : <input type="radio" name="gender" value="남성"/>남성&nbsp;
+ 				<input type="radio" name="gender" value="여성"/>여성<br/>
+		주소 : <input type="text" name="address" /><br/>
 		<input type="reset" value="다시쓰기" />
 		<input type="submit" value="전송하기" />
 	</form>

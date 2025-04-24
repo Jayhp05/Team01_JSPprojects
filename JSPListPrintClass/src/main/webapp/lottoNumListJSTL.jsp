@@ -53,6 +53,14 @@
         flex-wrap: nowrap;
         align-items: center;
     }
+    
+    .ball-img {
+    	width: 36px;
+    	height: 36px;
+    	border-radius: 50%;
+    	margin: 0 3px;
+	}
+    
 
     .ball {
         display: inline-block;
@@ -65,7 +73,15 @@
         color: white;
         font-size: 15px;
     }
-
+    
+    .bonus-text {
+	    font-size: small;
+	    color: gray;
+	    position: relative;
+	    top: 1px;
+	    margin: 0 5px;
+	}
+    
     .yellow { background: gold; }
     .blue { background: deepskyblue; }
     .red { background: tomato; }
@@ -92,6 +108,7 @@
 
 <%
 	List<LottoNum> lottoList = new ArrayList<LottoNum>();
+
 	lottoList.add(new LottoNum("907회", 21, 27, 29, 38, 40, 44, 37));
 	lottoList.add(new LottoNum("908회", 3, 16, 21, 22, 23, 44, 30));
 	lottoList.add(new LottoNum("909회", 7, 24, 29, 30, 34, 35, 33));
@@ -102,32 +119,45 @@
 	lottoList.add(new LottoNum("914회", 16, 19, 24, 33, 42, 44, 27));
 	lottoList.add(new LottoNum("915회", 2, 6, 11, 13, 22, 37, 14));
 	lottoList.add(new LottoNum("916회", 9, 21, 22, 32, 35, 36, 17));
-	request.setAttribute("lottoList", lottoList);
+	
+	List<Map<String, String>> formattedList = new ArrayList<>();
+    for (LottoNum lotto : lottoList) {
+        Map<String, String> map = new HashMap<>();
+        map.put("times", lotto.getTimes());
+        map.put("num1", String.format("%02d", lotto.getNum1()));
+        map.put("num2", String.format("%02d", lotto.getNum2()));
+        map.put("num3", String.format("%02d", lotto.getNum3()));
+        map.put("num4", String.format("%02d", lotto.getNum4()));
+        map.put("num5", String.format("%02d", lotto.getNum5()));
+        map.put("num6", String.format("%02d", lotto.getNum6()));
+        map.put("bonusNum", String.format("%02d", lotto.getBonusNum()));
+        formattedList.add(map);
+    }
+    request.setAttribute("formattedList", formattedList);
 %>
 
-<h2>로또 당첨 번호 리스트</h2>
-
 <div class="lotto-container">
-<c:forEach var="lotto" items="${lottoList}">
-    <div class="lotto-item">
-        <div class="lotto-round">${lotto.times}</div>
-        <div class="lotto-balls">
-            <span class="ball yellow">${lotto.num1}</span>
-            <span class="ball red">${lotto.num2}</span>
-            <span class="ball red">${lotto.num3}</span>
-            <span class="ball gray">${lotto.num4}</span>
-            <span class="ball gray">${lotto.num5}</span>
-            <span class="ball green">${lotto.num6}</span>
-            <span>+ 보너스</span>
-            <span class="ball blue">${lotto.bonusNum}</span>
-        </div>
-    </div>
-</c:forEach>
-</div>
+	<h2>로또 당첨 번호 리스트</h2>
+	<c:forEach var="lotto" items="${formattedList}">
+	    <div class="lotto-item">
+	        <div class="lotto-round">${lotto.times}</div>
+	        <div class="lotto-balls">
+	            <img class="ball-img" src="images/lotto_img/ball_${lotto.num1}.png" alt="${lotto.num1}">
+	            <img class="ball-img" src="images/lotto_img/ball_${lotto.num2}.png" alt="${lotto.num2}">
+	            <img class="ball-img" src="images/lotto_img/ball_${lotto.num3}.png" alt="${lotto.num3}">
+	            <img class="ball-img" src="images/lotto_img/ball_${lotto.num4}.png" alt="${lotto.num4}">
+	            <img class="ball-img" src="images/lotto_img/ball_${lotto.num5}.png" alt="${lotto.num5}">
+	            <img class="ball-img" src="images/lotto_img/ball_${lotto.num6}.png" alt="${lotto.num6}">
+	            <span class="bonus-text">+ 보너스 번호</span>
+	            <img class="ball-img" src="images/lotto_img/ball_${lotto.bonusNum}.png" alt="${lotto.bonusNum}">
+	        </div>
+	    </div>
+	</c:forEach>
 
-<div class="footer">
-    <a href="bookListJSTL.jsp">도서 리스트로 이동</a>
-    <a href="lottoNumListJSTL.jsp">로또 당첨 번호 리스트로 이동</a>
+	<div class="footer">
+	    <a href="bookListJSTL.jsp">도서 리스트로 이동</a>
+	    <a href="lottoNumListJSTL.jsp">로또 당첨 번호 리스트로 이동</a>
+	</div>
 </div>
 
 </body>

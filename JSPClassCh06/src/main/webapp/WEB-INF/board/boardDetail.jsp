@@ -9,6 +9,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Insert title here</title>
 <link href="bootstrap/bootstrap.min.css" rel="stylesheet">
+<script src="js/jquery-3.3.1.min.js"></script>
+<script src="js/formcheck.js"></script>
 
 </head>
 <body>
@@ -18,6 +20,10 @@
 		<!-- content -->
 		<div class="row my-5" id="global-content">
 			<div class="col">
+				<form name="cheakForm" id="checkForm">
+					<input type="hidden" name="no" value="${board.no}">
+					<input type="hidden" name="pass" id="rPass">
+				</form>
 				<div class="row text-center">
 					<div class="col">
 						<h2 class="fs-3 fw-bold">게시글 상세보기</h2>

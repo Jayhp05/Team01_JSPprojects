@@ -23,7 +23,7 @@ public class PostRequest02 extends HttpServlet {
 
 		String name = request.getParameter("name");
 		String age = request.getParameter("age");
-		String gender = request.getParameter("gedner");
+		String gender = request.getParameter("gender");
 		String address = request.getParameter("address");
 		
 		response.setContentType("text/html; charset=utf-8");

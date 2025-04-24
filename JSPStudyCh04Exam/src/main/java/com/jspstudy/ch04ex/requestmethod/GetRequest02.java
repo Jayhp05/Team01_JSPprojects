@@ -8,14 +8,9 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-//	JSPClassCh04/getRequest
-/*@WebServlet("/getRequest")*/
+@WebServlet("/getRequest")
 public class GetRequest02 extends HttpServlet {
 	
-	public static void main(String args[]) {
-		
-	}
-
 	@Override
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
@@ -37,7 +32,7 @@ public class GetRequest02 extends HttpServlet {
 		}
 		
 		out.print("<h2>" + firstNum + " ~ " + secondNum + "의 합</h2>");
-		out.print("1부터 10까지의 합은 " + sum + "입니다.<br>");
+		out.print(firstNum + "부터 " + secondNum + "까지의 합은 " + sum + "입니다.<br>");
 		out.close();
 		
 	}

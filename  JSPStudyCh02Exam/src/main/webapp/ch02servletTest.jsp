@@ -1,23 +1,16 @@
+<%-- 
+	스크립틀릿과 표현식을 이용해 도서 리스트 출력하기
+	table 태그를 사용할 것 
+--%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8"%> 
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>스크립틀릿과 표현식을 이용해 도서 리스트 출력</title>
 </head>
 <body>
-
-<%
-	int oddsum = 0;	
-
-	for(int i = 1; i <= 100; i++) {
-		if(i % 2 == 0){
-			oddsum += i;	
-		}
-	}
-%>
-	1부터 100까지 짝수의 합 : <%= oddsum %>
-
+	
 </body>
 </html>

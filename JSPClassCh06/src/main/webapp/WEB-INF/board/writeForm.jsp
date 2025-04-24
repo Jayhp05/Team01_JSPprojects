@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Insert title here</title>
 <link href="bootstrap/bootstrap.min.css" rel="stylesheet">
-<script src="js/jquery-3.7.1.min.js"></script>
+<script src="js/jquery-3.3.1.min.js"></script>
 <script src="js/formcheck.js"></script>
 
 </head>
@@ -25,7 +25,9 @@
 						<h2 class="fs-3 fw-bold">게시글 쓰기</h2>
 					</div>
 				</div>
-				<form action="writeProcess" name="writeForm" id="writeForm" class="row border-primary g-3" method="post">
+				<!-- 폼의 데이터를 전송할 때 application/x-www-urlencoded -->
+				<form action="writeProcess" name="writeForm" id="writeForm" class="row border-primary g-3" 
+						method="post" enctype="multipart/form-data">
 					<div class="col-4 offset-md-2">
 					    <label for="writer" class="form-label">글쓴이</label>
 					    <input type="text" class="form-control" name="writer"  id="writer" 
@@ -42,6 +44,11 @@
 					<div class="col-8 offset-md-2">
 					    <label for="content" class="form-label">내 용</label>
 					    <textarea class="form-control" name="content" id="content" rows="10"></textarea>
+					</div>
+					
+					<div class="col-8 offset-md-2">
+						<!-- <label for="file1" class="form-label">파 일</label> 이건 있어도 되고 없어도 되고-->
+					    <input type="file" class="form-control" name="file1"  id="file1" >
 					</div>
 					
 					<div class="row">

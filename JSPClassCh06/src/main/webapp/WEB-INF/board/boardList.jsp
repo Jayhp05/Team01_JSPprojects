@@ -12,11 +12,10 @@
 </head>
 <body>
 	<div class="container">
-		<div class="row">
-			<div class="col">
-				여기는 header 영역 - 메뉴가 있는 영역
-			</div>
-		</div>
+		<!-- header -->
+		<%@include file="../pages/header.jsp"%>
+		
+		<!-- content -->
 		<div class="row my-5 text-center">
 			<div class="col">
 				<h2>게시글 리스트</h2>
@@ -80,11 +79,10 @@
 				</table>
 			</div>
 		</div>
-		<div class="row">
-			<div class="col">
-				여기는 footer 영역 - 꼬리말 있는 영역
-			</div>
-		</div>
+		
+		<!-- footer -->
+		<%@include file="../pages/footer.jsp"%>
+
 	</div>
 	<script src="bootstrap/bootstrap.bundle.min.js"></script>
 </body>

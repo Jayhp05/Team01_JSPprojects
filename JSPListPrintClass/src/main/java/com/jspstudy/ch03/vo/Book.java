@@ -16,8 +16,8 @@ public class Book {
 		this.img = img;
 		this.title = title;
 		this.author = author;
-		this.author = author;
-		this.author = author;
+		this.publisher = publisher;
+		this.date = date;
 		this.price = price;
 		this.point = point;
 		this.total = total;
