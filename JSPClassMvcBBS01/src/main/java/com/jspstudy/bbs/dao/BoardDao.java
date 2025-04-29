@@ -240,11 +240,22 @@ public class BoardDao {
 	/* 게시글 내용 보기 요청 시 호출되는 메서드
 	 * no에 해당하는 게시글 을 DB에서 읽어와 Board 객체로 반환하는 메서드 
 	 **/
-	public Board getBoard(int no) {
+	public Board getBoard(int no, boolean state) {
+		
 		String sqlBoard = "SELECT * FROM jspbbs WHERE no=?";
+		String countSql = "UPDATE jspbbs SET read_count = read_count + 1 WHERE no=?";
 		Board board = null;
+		
 		try {
 			conn = DBManager.getConnection();
+			DBManager.setAutoCommit(conn, false); // default 가 자동 커밋이어서 false로 지정해줘야 다 끝나고 커밋을 진행함.
+			
+			if(state) {
+				pstmt = conn.prepareStatement(countSql);
+				pstmt.setInt(1,  no);
+				pstmt.executeUpdate();
+			}
+			
 			pstmt = conn.prepareStatement(sqlBoard);
 			pstmt.setInt(1,  no);
 			rs = pstmt.executeQuery();
@@ -260,8 +271,13 @@ public class BoardDao {
 				board.setReadCount(rs.getInt("read_count"));
 				board.setPass(rs.getString("pass"));
 				board.setFile1(rs.getString("file1"));
-			}			
+			}
+			
+			DBManager.commit(conn);
+			
 		} catch(SQLException e) {
+			DBManager.rollback(conn);
+			
 			e.printStackTrace();
 		} finally {			
 			DBManager.close(conn, pstmt, rs);				
