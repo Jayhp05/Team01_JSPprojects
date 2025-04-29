@@ -35,6 +35,8 @@ public class BoardUpdateFormController extends HttpServlet {
 		String sNo = request.getParameter("no");
 		String pass = request.getParameter("pass");
 		String pageNum = request.getParameter("pagaNum");
+		String type = request.getParameter("type");
+		String keyword = request.getParameter("keyword");
 		
 //		no, pageNum이 없으면 우리가 의도한 것이 아님
 //		직접 응답을 만들어서 (js로 응답) 알림하고 게시글 리스트로 보냄
@@ -48,6 +50,8 @@ public class BoardUpdateFormController extends HttpServlet {
 			out.println("	location.href='boardList'");
 			out.println("</script>");
 		}
+		
+		boolean searchOption = (type == null || type.equals("") || keyword == null || keyword.equals("")) ? false : true;
 		
 		/* BoardDao 객체를 생성하고 DB에서 게시글 번호와 사용자가 입력한 게시글
 		 * 비밀번호가 맞는지를 체크하여 맞으면 게시글 번호에 해당하는 게시글을 읽어온다.
@@ -80,6 +84,13 @@ public class BoardUpdateFormController extends HttpServlet {
 //		뷰에 가서 출력할 결과 데이터 => 모델
 		request.setAttribute("board", board);
 		request.setAttribute("pageNum", pageNum);
+		request.setAttribute("searchOption", searchOption);
+		
+		// 검색 요청이면 type과 keyword를 request 영역에 저장한다.
+		if(searchOption) {
+			request.setAttribute("type", type);
+			request.setAttribute("keyword", keyword);
+		}
 		
 		/* view 페이지로 제어를 이동해 요청에 대한 결과를 출력하기 위해
 		 * HttpServletRequest 객체로부터 RequestDispatcher 객체를 구하고

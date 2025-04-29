@@ -35,6 +35,10 @@
 					enctype="multipart/form-data">
 					<input type="hidden" name="no" value="${board.no}">
 					<input type="hidden" name="pageNum" value="${pageNum}">
+					<c:if test="${searchOption}">
+						<input type="hidden" name="type" value="${type}">
+						<input type="hidden" name="keyword" value="${keyword}">
+					</c:if>
 				  	<div class="col-4 offset-md-2">
 					    <label for="writer" class="form-label">글쓴이</label>
 					    <input type="text" class="form-control" name="writer"  id="writer" 
@@ -59,10 +63,18 @@
 						<input type="file" class="form-control" name="file1"  id="file1">
 					</div>
 			  		<div class="col-8 offset-md-2 text-center mt-5">
-					   <input type="submit" value="수정하기" class="btn btn-primary"/>
+					   	<input type="submit" value="수정하기" class="btn btn-primary"/>
 							&nbsp;&nbsp;
-						<input type="button" value="목록보기" 
-							onclick="location.href='boardList?pageNum=${pageNum}'" class="btn btn-primary"/>
+						<!-- 검색 리스트에서 넘어온 경우 다시 검색 리스트로 보내야 함. -->
+						<c:if test="${searchOption}">
+							<input class="btn btn-primary" type="button" value="목록보기" 
+									onclick="location.href='boardList?pageNum=${pageNum}&type=${type}&keyword=${keyword}'"/> 
+						</c:if>
+						<!-- 일반 리스트에서 넘어온 경우 다시 일반 리스트로 보내야 함. -->
+						<c:if test="${not searchOption}">
+							<input class="btn btn-primary" type="button" value="목록보기" 
+									onclick="location.href='boardList?pageNum=${pageNum}&type=${type}&keyword=${keyword}'"/>						
+						</c:if>
 			  		</div>	
 				</form>
 			</div>

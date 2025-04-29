@@ -1,4 +1,17 @@
-$(function() {
+$(function() { //DOM이 준비되면
+	
+	$("#searchForm").on("submit", function() {
+		let keyword = $("#keyword").val();
+		
+		if(keyword < 2) {
+			alert("검색어를 2자 이상 입력해 주세요.");
+			
+			return false;
+		}
+		
+		$(this).attr("method", "post"); // this가 가리키는 함수는 #searchForm
+		$(this).attr("action", "boardList");
+	});
 
 	/* 게시글 상세보기에서 게시글 수정 폼 요청 처리
 	 * 아래와 같이 hidden 폼을 통해 post 방식으로 요청할 수 있다.

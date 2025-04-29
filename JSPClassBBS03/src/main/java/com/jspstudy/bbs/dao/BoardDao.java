@@ -191,6 +191,135 @@ public class BoardDao {
 		
 	} // end boardList();
 
+//	검색어가 포함된 게시글 수를 읽어오는 메서드 - 검색 paging 처리에 사용
+	public int getBoardCount(String type, String keyword) {
+		
+		System.out.println(type + " - " + keyword);
+		
+//		title, content, writer
+		String sqlBoard = "SELECT COUNT(*) FROMjspbbs "
+				+ " WHERE "+ type +" LIKE '%' || '감사' ||'%'";
+		int count = 0;
+		
+		try {
+			// 4. DataSource 객체를 이용해 커넥션을 대여한다.
+			conn = ds.getConnection();
+			
+			/* 5. DBMS에 SQL 쿼리를 발생하기 위해 활성화된 
+			 *	Connection 객체로부터 PreparedStatement 객체를 얻는다.
+			 *
+			 * PreparedStatement는 SQL 명령을 캐싱하여(저장하여) 반복적으로 사용하기
+			 * 때문에 prepareStatement()를 호출할 때 SQL 쿼리 문을 지정해야 한다.
+			 * PreparedStatement 객체는 반복적으로 사용되는 SQL 명령 외에 
+			 * SQL 문장에 포함되어 변경되는 데이터를 Placeholder(?)로 지정할 수 있다. 
+			 * SQL 문장의 조건식에 사용되는 데이터나 실제 테이블에 입력되는 데이터는
+			 * SQL 명령이 동일하나 상황에 따라 조건식에 사용되는 데이터가 변경될 수
+			 * 있고 또한 테이블에 새롭게 추가되는 데이터가 다르게 입력된다. 이렇게
+			 * 변경되는 데이터가 SQL 문장에서 기술되어야 할 위치에 Placeholder(?)를
+			 * 지정하고 실제 DB에 SQL 쿼리 문을 전송하기 전에 PreparedStatement
+			 * 객체의 setXxx()를 이용해 데이터를 변경해 가며 질의 할 수 있다.
+			 * 여기서 주의할 점은 setXxx()에 지정하는 index의 개념이 배열에서
+			 * 사용되는 index의 개념이 아니라 첫 번째 Placeholder(?), 두 번째 
+			 * Placeholder(?)와 같이 위치의 개념으로 시작 번호가 1부터 시작된다.
+			 **/
+			pstmt = conn.prepareStatement(sqlBoard);
+			
+			/* 6. PreparedStatement 객체에 SELECT 쿼리의 Placeholder(?)와
+			 * 데이터를 맵핑 한다.
+			 **/
+			pstmt.setString(1,  keyword);
+			
+
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				count = rs.getInt(1);
+			}			
+		} catch(SQLException e) {
+			System.out.println("BoardDao - getBoard() : SQLException");
+			e.printStackTrace();
+			
+		} finally {
+			try {
+				// 9. 사용한 ResultSet과 PreparedStatement 객체를 닫는다.
+				if(rs != null) rs.close();
+				if(pstmt != null) pstmt.close();
+				
+				// 10. 커넥션 풀로 Connection 객체를 반납한다.
+				if(conn != null) conn.close();
+			} catch(SQLException e) {}
+		}
+		
+		// 11. 데이터베이스로부터 읽어온 no에 해당하는 게시글 정보를 반환한다.
+		return count;
+		
+	} // end getBoard(int no);
+	
+//	제목, 작성자, 내용에 검색어가 포함된 게시글 리스트를 읽어와 반환하는 메서드
+	public ArrayList<Board> searchList(String type, String keyword, int startRow, int endRow) {
+		
+		String sqlBoardList = "SELECT * FROM ( "
+				 + " 	SELECT ROWNUM num, sub.* FROM "
+				 + " 		(SELECT * FROM jspbbs WHERE " + type
+				 + " 			LIKE ? ORDER BY no DESC) sub) "
+				 + " WHERE num >= ? AND num <= ?";
+		ArrayList<Board> boardList = null;
+		
+		try {			
+			// 4. DataSource 객체를 이용해 커넥션을 대여한다.
+			conn = ds.getConnection();
+			
+			pstmt = conn.prepareStatement(sqlBoardList);
+			pstmt.setString(1, "%" + keyword + "%");
+			pstmt.setInt(2, startRow);
+			pstmt.setInt(3, endRow);
+			
+			rs = pstmt.executeQuery();
+			
+			// 게시글 리스트를 저장할 ArrayList 객체 생성
+			boardList = new ArrayList<Board>();
+			
+			while(rs.next()) {
+				
+				/* 반복문을 돌 때마다 Board 객체를 생성해 DB로부터 읽어온 한 행의
+				 * 데이터를 읽어 Board 객체에 저장하고 다시 ArrayList에 담는다.  
+				 **/	
+				Board b = new Board();
+				
+				/* ResultSet 객체의 getXXX() 메서드에 컬럼 위치에 대한 index 값을 
+				 * 1부터 지정할 수도 있고 컬럼 이름을 지정해 데이터를 읽어 올 수 있다.
+				 **/
+				b.setNo(rs.getInt("no"));
+				b.setTitle(rs.getString("title"));
+				b.setWriter(rs.getString("writer"));
+				b.setContent(rs.getString("content"));				
+				b.setRegDate(rs.getTimestamp("reg_date"));
+				b.setReadCount(rs.getInt("read_count"));
+				b.setPass(rs.getString("pass"));
+				b.setFile1(rs.getString("file1"));
+				
+				boardList.add(b);
+			}			
+		} catch(SQLException e) {
+			System.out.println("BoardDao - boardList() - SQLException");
+			e.printStackTrace();
+			
+		} finally {
+			try {
+				// 8. 사용한 ResultSet과 PreparedStatement를 종료한다.
+				if(rs != null) rs.close();
+				if(pstmt != null) pstmt.close();
+				
+				// 9. 커넥션 풀로 Connection 객체를 반납한다.
+				if(conn != null) conn.close();
+			} catch(SQLException e) {}
+		}
+		
+		// 10. 데이터베이스로부터 읽어온 게시글 리스트를 반환한다.
+		return boardList;
+		
+	}
+	
 	
 	/* 게시글 상세보기 요청 시 호출되는 메서드
 	 * no에 해당하는 게시글 을 DB에서 읽어와 Board 객체로 반환하는 메서드 
@@ -252,13 +381,10 @@ public class BoardDao {
 			if(rs.next()) {
 				board = new Board();
 				
-				/* ResultSet 객체의 getXXX() 메서드에 컬럼 위치에 대한 index 값을 
-				 * 1부터 지정할 수도 있고 컬럼 이름을 지정해 데이터를 읽어 올 수 있다.
-				 **/
 				board.setNo(rs.getInt("no"));
 				board.setTitle(rs.getString("title"));
 				board.setWriter(rs.getString("writer"));
-				board.setContent(rs.getString("content"));				
+				board.setContent(rs.getString("content"));
 				board.setRegDate(rs.getTimestamp("reg_date"));
 				board.setReadCount(rs.getInt("read_count"));
 				board.setPass(rs.getString("pass"));

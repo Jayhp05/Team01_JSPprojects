@@ -40,3 +40,18 @@ INSERT INTO jspbbs (no,title,writer,content,reg_date,read_count,pass,file1) VALU
 COMMIT;
 SELECT * FROM jspbbs ORDER BY no DESC;
 
+-- 검색 게시글 리스트의 페이징 처리 쿼리
+select count(*) from jspbbs
+where content like '%' || '감사' ||'%';
+-- 검색 게시글 리스트의 페이징 처리 쿼리
+select * from (
+            select rownum num, sub.* from
+                (select * from jspbbs where content like '%' || '감사' ||'%' order by no desc) sub)
+where num > 1 and num <= 10;
+
+select * from (
+            select rownum num, sub.* from
+                (select * from jspbbs order by no desc) sub)
+where num > 1 and num <= 10;
+
+

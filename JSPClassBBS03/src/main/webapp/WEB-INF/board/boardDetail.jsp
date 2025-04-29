@@ -38,7 +38,11 @@
 				<form name="checkForm" id="checkForm">
 					<input type="hidden" name="no" id="no" value="${ board.no }"/>
 					<input type="hidden" name="pass" id="rPass" />
-					<input type="hidden" name="pagaNum" valus="${pageNum}">
+					<input type="hidden" name="pagaNum" value="${pageNum}">
+					<c:if test="${searchOption}">
+						<input type="hidden" name="type" value="${type}">
+						<input type="hidden" name="keyword" value="${keyword}">
+					</c:if>
 				</form>
 				<div class="row text-center">
 					<div class="col">
@@ -92,10 +96,18 @@
 				</div>
 				<div class="row my-3">
 					<div class="col text-center">
-						<input class="btn btn-warning" type="button" id="detailUpdate" value="수정하기"/>
-						&nbsp;&nbsp;<input class="btn btn-danger"  type="button" id="detailDelete" value="삭제하기" />			
-						&nbsp;&nbsp;<input class="btn btn-primary" type="button" value="목록보기" 
-								onclick="location.href='boardList?pageNum=${pageNum}'"/>						
+						<input class="btn btn-warning" type="button" id="detailUpdate" value="수정하기"/>&nbsp;&nbsp;
+						<input class="btn btn-danger"  type="button" id="detailDelete" value="삭제하기" />&nbsp;&nbsp;
+						<!-- 검색 리스트에서 넘어온 경우 다시 검색 리스트로 보내야 함. -->
+						<c:if test="${searchOption}">
+							<input class="btn btn-primary" type="button" value="목록보기" 
+									onclick="location.href='boardList?pageNum=${pageNum}&type=${type}&keyword=${keyword}'"/> 
+						</c:if>
+						<!-- 일반 리스트에서 넘어온 경우 다시 일반 리스트로 보내야 함. -->
+						<c:if test="${not searchOption}">
+							<input class="btn btn-primary" type="button" value="목록보기" 
+									onclick="location.href='boardList?pageNum=${pageNum}&type=${type}&keyword=${keyword}'"/>						
+						</c:if>
 					</div>
 				</div>
 			</div>	

@@ -13,13 +13,17 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html lang="ko">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>게시글 리스트</title>
-    <link href="bootstrap/bootstrap.min.css" rel="stylesheet" >    
-  </head>
-  <body>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>게시글 리스트</title>
+<link href="bootstrap/bootstrap.min.css" rel="stylesheet" >
+
+<script src="js/jquery-3.3.1.min.js"></script>
+<script src="js/formcheck.js"></script>
+        
+</head>
+<body>
   	<div class="container">
   		<%-- 
   			여러 페이지에 걸쳐서 중복되는 내용을 별도의 JSP 페이지로 만들고 include 지시자를
@@ -52,12 +56,33 @@
 					<div class="col-auto">
 						<input type="submit" value="검 색" class="btn btn-primary"/>
 					</div>
-				</form>  		
-		  		<div class="row">
-		  			<div class="col text-end">
-		  				<a href="writeForm" class="btn btn-outline-success">글쓰기</a>
-		  			</div>
-		  		</div>
+				</form>  
+				
+				<!-- 검색 요청인 경우 -->
+				<c:if test="${ searchOption }">
+					<div class="row my-3">
+						<div class="col text-center">"${keyword}" 검색 결과
+						</div>
+					</div> 
+					<%-- 검색 요청일 경우 일반 게시글 리스트로 이동할 수 있도록 링크를 설정했다. --%>
+					<div class="row my-3">
+						<div class="col-6">
+							<a href="boardList" class="btn btn-outline-success">리스트</a>
+						</div>
+						<div class="col-6 text-end">
+							<a href="writeForm" class="btn btn-outline-success">글쓰기</a>
+						</div>
+					</div>
+				</c:if>
+				<!-- 검색 요청이 아닌 경우 -->
+				<c:if test="${ not searchOption }">
+					<div class="row my-3">
+						<div class="col text-end">
+							<a href="writeForm" class="btn btn-outline-success">글쓰기</a>
+						</div>
+					</div>
+				</c:if>
+				
 		  		<div class="row my-3">  			
 		  			<div class="col">
 		  				<table class="table table-hover">
@@ -71,39 +96,45 @@
 								</tr>
 							</thead>
 							<tbody class="text-secondary">
-							<%-- 
-								표현언어(EL)를 사용해 내장객체의 속성에 저장할 때 사용한 속성 이름을 지정하면
-								내장객체의 속성에 저장된 데이터를 읽어 올 수 있다. 스크립팅요소를 사용하는 것에
-								비해 더 간단히 내장객체의 속성에 저장된 값을 읽을 수 있다.
-								표현언어(EL)를 사용해 속성 이름을 지정하면 pageContext, request, session, 
-								application 4개의 영역에 저장된 속성을 작은 범위에서 큰 범위 순으로 검색하여
-								지정한 이름의 속성에 대한 값을 얻어 올 수 있다. 지정한 속성 이름이 존재하지 않아						
-								도 NullPointerException은 발생하지 않고 다만 아무것도 출력되지 않는다.
-								내장객체의 속성에 객체가 저장되어 있으면 내장객체의 속성 명과 dot 연자자(.)를 
-								사용해 객체의 프로퍼티(인스턴스 변수) 값을 읽어 올 수 있다. 표현언어(EL)로 객체의
-								프로퍼티를 읽기 위해서는 그 객체의 클래스에 읽어 올 프로퍼티에 대한 getter 
-								메서드가 반드시 존재해야 한다. 그렇지 않으면 JasperException이 발생한다.
-							--%>
-		  					<%-- 
-								게시글이 있는 경우 게시글 수만큼 반복하면서 게시글을 출력		
-							--%>	
-							<c:if test="${ not empty bList }">
+		  					<%-- 게시글이 있는 경우 게시글 수만큼 반복하면서 게시글을 출력 (검색 요청이면서 게시글이 있는 경우) --%>	
+							<c:if test="${searchOption and not empty bList }">
 								<c:forEach var="b" items="${bList}">
 								<tr>
 									<td>${ b.no }</td>
-									<%-- 
-										반복문 안에서 한 행의 게시글을 출력하면서 
-										게시글 상세보기로 넘어갈 수 있도록 링크를 설정 
-									--%>
-									<td><a href="boardDetail?no=${b.no}" class="text-decoration-none link-secondary">${ b.title }</a></td>
+									<td class="text-secondary">
+										<a href="boardDetail?no=${b.no}&pageNum=${currentPage}&type=${type}&keyword=${keyword} class="text-decoration-none link-secondary">${ b.title }</a>
+									</td>
 									<td>${ b.writer }</td>
-									<td><fmt:formatDate value="${ b.regDate }" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+									<td>${ b.regDate }</td>
 									<td>${ b.readCount }</td>
 								</tr>
 								</c:forEach>
 							</c:if>
-							<%-- 게시글이 없는 경우 --%>
-							<c:if test="${ empty bList }">
+							<!-- 일반 게시글 리스트 요청이면서 게시글이 있는 경우 -->
+							<c:if test="${not searchOption and not empty bList }">
+								<c:forEach var="b" items="${bList}">
+								<tr>
+									<td>${ b.no }</td>
+									<td>
+										<a href="boardDetail?no=${b.no}" class="text-decoration-none link-secondary">${ b.title }</a>
+									</td>
+									<td>${ b.writer }</td>
+									<td>${ b.regDate }</td>
+									<td>${ b.readCount }</td>
+								</tr>
+								</c:forEach>
+							</c:if>
+							
+							<%-- 검색 게시글 리스트이면서 게시글이 없는 경우 --%>
+							<c:if test="${searchOption and empty bList }">
+								<tr>
+									<td colspan="5" class="text-center">
+										"${keyword}"가 포함된 게시글이 존재하지 않습니다.
+									</td>
+								</tr>
+							</c:if>
+							<%-- 일반 게시글 리스트이면서 게시글이 없는 경우 --%>
+							<c:if test="${not searchOption and empty bList }">
 								<tr>
 									<td colspan="5" class="text-center">게시글이 존재하지 않습니다.</td>
 								</tr>
@@ -112,11 +143,46 @@
 		  				</table>
 		  			</div>  			
 		  		</div>
+		  		<!-- 검색 요청이면서 검색된 리스트가 존재할 경우 페이지네이션 -->
+		  		<c:if test="${searchOption and not empty bList}">
 		 		<div class="row">
 					<div class="col">
 						<nav aria-label="Page navigation example">
 							<ul class="pagination justify-content-center">
-								<c:if test="${startPage > endGroup}">
+								<c:if test="${startPage > pageGroup}">
+									<li class="page-item">
+										<a class="page-link" href="boardList?pageNum=${ startPage - pageGroup }&type=${type}&keyword=${keyword}">Pre</a>
+									</li>
+								</c:if>
+								<c:forEach var="i" begin="${startPage}" end="${endPage}">
+									<!-- 현재 페이지 - 링크x active -->
+									<c:if test="${i == currentPage }">
+										<li class="page-item active" aria-current="page">
+											<span class="page-link active">${i}</span>
+										</li>
+									</c:if>
+									<c:if test="${i != currentPage }">
+										<li class="page-item"><a class="page-link" href="boardList?pageNum=${i}">${i}</a></li>
+									</c:if>    
+								</c:forEach>
+								<c:if test="${ endPage < pageCount }">
+									<li class="page-item">
+										<a class="page-link" href="boardList?pageNum=${ startPage + pageGroup }&type=${type}&keyword=${keyword}">Next</a>
+									</li>
+								</c:if>
+							</ul>
+						</nav>
+					</div>
+				</div>
+				</c:if>
+		  		
+		  		<!--  -->
+		  		<c:if test="${ not searchOption and not empty bList }">
+		 		<div class="row">
+					<div class="col">
+						<nav aria-label="Page navigation example">
+							<ul class="pagination justify-content-center">
+								<c:if test="${startPage > pageGroup}">
 									<li class="page-item">
 										<a class="page-link" href="boardList?pageNum=${ startPage - pageGroup }">Pre</a>
 									</li>
@@ -141,11 +207,12 @@
 						</nav>
 					</div>
 				</div>
+				</c:if>
 			</div>
 		</div>
 		<!-- footer  -->
 		<%@ include file="../pages/footer.jsp" %>
 	</div>
-    <script src="bootstrap/bootstrap.bundle.min.js"></script>
-  </body>
+<script src="bootstrap/bootstrap.bundle.min.js"></script>
+</body>
 </html>

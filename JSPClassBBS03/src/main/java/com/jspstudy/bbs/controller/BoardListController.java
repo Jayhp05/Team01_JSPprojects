@@ -23,6 +23,13 @@ public class BoardListController extends HttpServlet {
 //	[이전] 1 2 3 4 ... 10 [다음]
 	private static final int PAGE_GROUP = 10;
 
+	 // post 방식의 요청을 처리하는 메서드
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		 request.setCharacterEncoding("utf-8");
+		 
+		 doGet(request, response);
+	}
+	
 	// get 방식의 요청을 처리하는 메소드
 	protected void doGet(
 			HttpServletRequest request, HttpServletResponse response)
@@ -30,6 +37,8 @@ public class BoardListController extends HttpServlet {
 		
 //		몇 페이지를 원하는지 알아야
 		String pageNum = request.getParameter("pageNum");
+		String type = request.getParameter("type");
+		String keyword = request.getParameter("keyword");
 		
 		if(pageNum == null) {
 			pageNum = "1";
@@ -45,9 +54,25 @@ public class BoardListController extends HttpServlet {
 		
 		// BoardDao 객체를 생성하고 데이터베이스에서 게시글 리스트를 읽어온다.
 		BoardDao dao = new BoardDao();
-		ArrayList<Board> bList = dao.boardList(startRow, endRow);
+		ArrayList<Board> bList = null;
+		int listCount = 0;
 		
-		int listCount = dao.getBoardCount();
+//		검색 게시글 리스트 - type. keyword 동시에 있으면
+		boolean searchOption = (type == null || type.equals("") || keyword == null || keyword.equals("")) ? false : true;
+		
+		// 검색 요청이 아니면
+		if(! searchOption) {			
+//			일반 게시글 리스트
+			bList = dao.boardList(startRow, endRow);
+			listCount = dao.getBoardCount();
+		} 
+		else { // 검색 요청이면
+			// 검색어에 해당하는 게시글 수를 구한다.
+			bList = dao.searchList(type, keyword, startRow, endRow);
+			listCount = dao.getBoardCount(type, keyword);
+		}
+		
+		System.out.println("listCount : " + listCount);
 		
 //		전체 페이지 수 - 계산을 위해서 필요한 데이터
 //		153 / 10 = 15 + 1 (어느 때 해야하는지)
@@ -75,6 +100,13 @@ public class BoardListController extends HttpServlet {
 		request.setAttribute("pageCount", pageCount);
 		request.setAttribute("startPage", startPage);
 		request.setAttribute("endPage", endPage);
+		request.setAttribute("searchOption", searchOption);
+		
+		// 검색 요청이면 type과 keyword를 request 영역에 저장한다.
+		if(searchOption) {
+			request.setAttribute("keyword", keyword);
+			request.setAttribute("type", type);
+		}
 		
 		/* view 페이지로 제어를 이동해 요청에 대한 결과를 출력하기 위해
 		 * HttpServletRequest 객체로부터 RequestDispatcher 객체를 구하고
