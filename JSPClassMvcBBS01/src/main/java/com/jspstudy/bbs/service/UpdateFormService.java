@@ -1,25 +1,19 @@
-package com.jspstudy.bbs.controller;
+package com.jspstudy.bbs.service;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 
-import jakarta.servlet.RequestDispatcher;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-
 import com.jspstudy.bbs.dao.BoardDao;
 import com.jspstudy.bbs.vo.Board;
 
-@WebServlet("/updateForm")
-public class BoardUpdateFormController extends HttpServlet {
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
-	// post 방식의 요청을 처리하는 메소드
-	protected void doPost(
-			HttpServletRequest request, HttpServletResponse response)
-					throws ServletException, IOException {
+//	게시글 수정 폼 요청을 처리하는 서비스 클래스
+public class UpdateFormService {
+
+	public String requestProcess (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		//POST 요청방식의 문자 셋 처리
 		request.setCharacterEncoding("utf-8");
@@ -43,7 +37,7 @@ public class BoardUpdateFormController extends HttpServlet {
 			out.println("	alert('잘못된 접근입니다.');");
 			out.println("	history.back();");
 			out.println("</script>");
-			return;
+			return null;
 		}
 		
 		/* BoardDao 객체를 생성하고 DB에서 게시글 번호와 사용자가 입력한 게시글
@@ -65,7 +59,7 @@ public class BoardUpdateFormController extends HttpServlet {
 			out.println("	history.back();");
 			out.println("</script>");
 			out.close();
-			return;
+			return null;
 		}
 		
 		/* 요청 파라미터에서 type이나 keyword가 비어 있으면 일반 
@@ -94,13 +88,7 @@ public class BoardUpdateFormController extends HttpServlet {
 			request.setAttribute("type", type);			
 			request.setAttribute("keyword", keyword);
 		}
-		
-		/* view 페이지로 제어를 이동해 요청에 대한 결과를 출력하기 위해
-		 * HttpServletRequest 객체로부터 RequestDispatcher 객체를 구하고
-		 * /WEB-INF/board/updateForm.jsp 페이지로 포워딩 한다. 
-		 **/
-		RequestDispatcher rd = 
-				request.getRequestDispatcher("/WEB-INF/board/updateForm.jsp");
-		rd.forward(request, response);
+	
+		return "board/updateForm";
 	}
 }

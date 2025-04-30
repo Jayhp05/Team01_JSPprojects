@@ -23,7 +23,7 @@
 					</div>
 				</div>
 				<!-- 파일 업로드 폼을 만들때 enctype을 아래와 같이 지정한다. -->
-				<form name="updateForm" action="updateProcess" id="updateForm" 
+				<form name="updateForm" action="updateProcess.mvc" id="updateForm" 
 					class="row g-3 border-primary" method="post"
 					enctype="multipart/form-data">
 					<%--
@@ -72,14 +72,14 @@
 						--%>
 						<c:if test="${ not searchOption }">	
 						&nbsp;&nbsp;<input class="btn btn-primary" type="button" value="목록보기" 
-								onclick="location.href='boardList?pageNum=${pageNum}'"/>
+								onclick="location.href='boardList.mvc?pageNum=${pageNum}'"/>
 						</c:if>
 						<%-- 
 							검색 리스트에서 온 요청이면 검색 리스트의 동일한 페이지로 돌려보낸다. 
 						--%>
 						<c:if test="${ searchOption }">	
 						&nbsp;&nbsp;<input class="btn btn-primary" type="button" value="목록보기" 
-								onclick="location.href='boardList?pageNum=${pageNum}&type=${ type }&keyword=${ keyword }'"/>
+								onclick="location.href='boardList.mvc?pageNum=${pageNum}&type=${ type }&keyword=${ keyword }'"/>
 						</c:if>	
 			  		</div>	
 				</form>

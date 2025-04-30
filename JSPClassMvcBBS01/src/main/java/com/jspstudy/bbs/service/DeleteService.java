@@ -1,27 +1,20 @@
-package com.jspstudy.bbs.controller;
+package com.jspstudy.bbs.service;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URLEncoder;
 
+import com.jspstudy.bbs.dao.BoardDao;
+
 import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-import com.jspstudy.bbs.dao.BoardDao;
+//	게시글 삭제 요청을 처리하는 서비스 클래스
+public class DeleteService {
 
-@WebServlet("/deleteProcess")
-public class BoardDeleteController extends HttpServlet {
-
-	// post 방식의 요청을 처리하는 메소드
-	protected void doPost(
-			HttpServletRequest request, HttpServletResponse response)
-					throws ServletException, IOException {
-		
-		//POST 요청방식의 문자 셋 처리
-		request.setCharacterEncoding("utf-8");
+	
+	public String requestProcess (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		String sNo = request.getParameter("no");
 		String pass = request.getParameter("pass");
@@ -41,7 +34,7 @@ public class BoardDeleteController extends HttpServlet {
 			out.println("	alert('잘못된 접근입니다.');");
 			out.println("	history.back();");
 			out.println("</script>");
-			return;
+			return null;
 		}	
 		
 		// BoardDao 객체 생성
@@ -61,7 +54,7 @@ public class BoardDeleteController extends HttpServlet {
 			response.setContentType("text/html; charset=utf-8");
 			PrintWriter out = response.getWriter();
 			out.println(sb.toString());			
-			return;
+			return null;
 		}
 		
 		// BoardDao 객체를 이용해 게시글을 삭제한다.
@@ -96,20 +89,9 @@ public class BoardDeleteController extends HttpServlet {
 			url += "&type=" + type + "&keyword=" + keyword; 
 		}
 		
-		/* 게시글 삭제가 완료된 후 response 내장객체의 sendRedirect() 메서드를
-		 * 이용해 게시글 리스트로 Redirect 시킨다. response 내장객체의 sendRedirect()
-		 * 메서드는 요청한 자원이 다른 곳으로 이동되었다고 웹브라우저에게 응답하면서
-		 * 이동할 URL을 알려주고 그 쪽으로 다시 요청하라고 응답하는 메소드이다.
-		 * 웹 브라우저가 요청한 컨텐츠가 다른 곳으로 이동되었다고 응답하면서 그 쪽으로
-		 * 다시 요청하라고 이동할 주소를 웹브라우저에게 알려주면 웹브라우저는 그 주소로
-		 * 다시 요청하게 되는데 이를 리다이렉션이라고 한다.
-		 * 
-		 * 게시글 삭제가 완료된 후 Redirect 시키지 않으면 이 페이지를 새로 고침 하여
-		 * 재요청 할 때 마다 이미 삭제된 게시글을 계속해서 삭제하려고 하는 문제가 발생한다.
-		 * 
-		 *	리다이렉트 할 때 페이지 번호를 요청 파라미터로 넘겨줘야 사용자가 이전에 있었던
-		 * 게시글 리스트 페이지로 이동할 수 있다. 
-		 **/
-		response.sendRedirect(url);
+		System.out.println("keyword : " + keyword);
+		System.out.println("url : " + url);
+		
+		return "r:boardList.mvc";
 	}
 }

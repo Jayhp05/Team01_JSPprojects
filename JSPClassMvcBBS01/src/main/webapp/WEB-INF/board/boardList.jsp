@@ -51,10 +51,10 @@
 					--%>
 					<div class="row my-3">
 						<div class="col-6">
-							<a href="boardList" class="btn btn-outline-success">리스트</a>
+							<a href="boardList.mvc" class="btn btn-outline-success">리스트</a>
 						</div>
 						<div class="col-6 text-end">
-							<a href="writeForm" class="btn btn-outline-success">글쓰기</a>
+							<a href="writeForm.mvc" class="btn btn-outline-success">글쓰기</a>
 						</div>
 					</div>
 				</c:if>				
@@ -62,7 +62,7 @@
 				<c:if test="${ not searchOption }">
 					<div class="row my-3">
 						<div class="col text-end">
-							<a href="writeForm" class="btn btn-outline-success">글쓰기</a>
+							<a href="writeForm.mvc" class="btn btn-outline-success">글쓰기</a>
 						</div>
 					</div>
 				</c:if>				
@@ -89,7 +89,7 @@
 								<tr>
 									<td>${ b.no }</td>
 									<td>
-										<a href="boardDetail?no=${b.no}&pageNum=${currentPage}&type=${ type }&keyword=${ keyword }" class="text-decoration-none link-secondary">${ b.title }</a>
+										<a href="boardDetail.mvc?no=${b.no}&pageNum=${currentPage}&type=${ type }&keyword=${ keyword }" class="text-decoration-none link-secondary">${ b.title }</a>
 									</td>
 									<td>${ b.writer }</td>
 									<td>${ b.regDate }</td>
@@ -106,7 +106,7 @@
 								<c:forEach var="b" items="${bList}" varStatus="status">
 								<tr>
 									<td>${ b.no }</td>
-									<td><a href="boardDetail?no=${b.no}&pageNum=${currentPage}" class="text-decoration-none link-secondary">${ b.title }</a></td>
+									<td><a href="boardDetail.mvc?no=${b.no}&pageNum=${currentPage}" class="text-decoration-none link-secondary">${ b.title }</a></td>
 									<td>${ b.writer }</td>
 									<td>${ b.regDate }</td>
 									<td>${ b.readCount }</td>
@@ -146,7 +146,7 @@
 							 	 --%>
 							  	<c:if test="${ startPage > pageGroup }">
 								    <li class="page-item">
-								      <a class="page-link" href="boardList?pageNum=${ startPage - pageGroup }&type=${ type }&keyword=${ keyword }">Pre</a>
+								      <a class="page-link" href="boardList.mvc?pageNum=${ startPage - pageGroup }&type=${ type }&keyword=${ keyword }">Pre</a>
 								    </li>
 							    </c:if>							    
 							    <%--
@@ -163,7 +163,7 @@
 							    	</c:if>
 							    	<c:if test="${i != currentPage }">
 								    	<li class="page-item">
-								    		<a class="page-link" href="boardList?pageNum=${ i }&type=${ type }&keyword=${ keyword }">${i}</a>
+								    		<a class="page-link" href="boardList.mvc?pageNum=${ i }&type=${ type }&keyword=${ keyword }">${i}</a>
 								    	</li>
 								    </c:if>					    
 							    </c:forEach>							    
@@ -176,7 +176,7 @@
 							 	 --%>
 								<c:if test="${ endPage < pageCount }">
 								    <li class="page-item">
-								      <a class="page-link" href="boardList?pageNum=${ startPage + pageGroup }&type=${ type }&keyword=${ keyword }">Next</a>
+								      <a class="page-link" href="boardList.mvc?pageNum=${ startPage + pageGroup }&type=${ type }&keyword=${ keyword }">Next</a>
 								    </li>
 							  	</c:if>
 							  </ul>
@@ -199,7 +199,7 @@
 							 	 --%>
 							  	<c:if test="${ startPage > pageGroup }">
 								    <li class="page-item">
-								      <a class="page-link" href="boardList?pageNum=${ startPage - pageGroup }">Pre</a>
+								      <a class="page-link" href="boardList.mvc?pageNum=${ startPage - pageGroup }">Pre</a>
 								    </li>
 							    </c:if>
 							    <%--
@@ -216,7 +216,7 @@
 							    	</c:if>
 							    	<c:if test="${i != currentPage }">
 								    	<li class="page-item">
-								    		<a class="page-link" href="boardList?pageNum=${ i }">${i}</a>
+								    		<a class="page-link" href="boardList.mvc?pageNum=${ i }">${i}</a>
 								    	</li>
 								    </c:if>					    
 							    </c:forEach>							    
@@ -229,7 +229,7 @@
 							 	 --%>
 								<c:if test="${ endPage < pageCount }">
 								    <li class="page-item">
-								      <a class="page-link" href="boardList?pageNum=${ startPage + pageGroup }">Next</a>
+								      <a class="page-link" href="boardList.mvc?pageNum=${ startPage + pageGroup }">Next</a>
 								    </li>
 							  	</c:if>
 							  </ul>
