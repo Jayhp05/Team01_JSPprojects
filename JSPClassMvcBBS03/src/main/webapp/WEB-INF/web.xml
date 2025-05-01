@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="https://jakarta.ee/xml/ns/jakartaee" xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_5_0.xsd" id="WebApp_ID" version="5.0">
+		
+  <display-name>JSPStudyMvcBBS03</display-name>
+ 
+  <!-- 애플리케이션 초기화 파라미터 - 파일을 업로드할 폴더 -->	
+  <context-param>
+    <param-name>uploadDir</param-name>
+    <param-value>upload</param-value>
+  </context-param>
+    
+  <!-- 에러 페이지 설정 -->
+  <error-page>
+    <error-code>500</error-code>
+    <location>/WEB-INF/index.jsp?body=errors/errorpage.jsp</location>
+  </error-page>
+  <error-page>
+    <error-code>404</error-code>
+    <location>/WEB-INF/index.jsp?body=errors/errorpage.jsp</location>
+  </error-page>
+</web-app>
+
+
+
+
+
+
