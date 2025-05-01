@@ -1,0 +1,9 @@
+@CHARSET "UTF-8";
+/* 에러페이지 */
+#errorpage {
+	width: 460px;	
+	margin: 150px auto;
+	padding: 100px 0;
+}
+#errorpage img { border: none; }
+
