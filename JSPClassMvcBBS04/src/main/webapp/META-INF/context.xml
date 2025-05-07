@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context>
+	<Resource
+		name="jdbc/bbsDBPool"
+		auth="Container" 
+		type="javax.sql.DataSource"
+		driverClassName="oracle.jdbc.driver.OracleDriver"
+		url="jdbc:oracle:thin:@localhost:1521:xe"
+		username="hr"
+		password="hr"
+		factory="org.apache.commons.dbcp2.BasicDataSourceFactory"
+		maxActive="10"
+		maxIdle="5" 	/>
+</Context>
+<!-- 오라클 xe 버전 -->
+<!-- url="jdbc:oracle:thin:@localhost:1521:xe" -->
+<!-- 오라클 Enterprise 버전 -->
+<!-- url="jdbc:oracle:thin:@localhost:1521:orcl" -->
+<!-- 톰캣에 기본 내장되어 있는 DBCP를 사용할 경우 DBCP Factory 지정 방법 -->
+<!-- factory="org.apache.tomcat.dbcp.dbcp.BasicDataSourceFactory"  -->
