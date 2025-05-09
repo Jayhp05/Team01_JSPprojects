@@ -97,6 +97,8 @@ INSERT INTO reply(no, bbs_no, reply_content, reply_writer, reg_date) VALUES(repl
 commit;
 SELECT * FROM reply;
 
+select * from reply order by no desc;
 
+update reply set reply_content;
 
 
